@@ -9,16 +9,13 @@ A simple collage creator developed with React using the Webrix. This project is 
 - Font Awesome 4.7.0
 - SCSS
 
-## Logo
-![Project Logo](public/logo.svg)
-
 ## Versions
 - React: [18.3.1]
 - Bootstrap: [5.3.3]
 - Font Awesome: [4.7.0]
 
 ## Installation
-Steps to run the project:
+Steps to run & build the project:
 1. Clone the repo: `git clone https://github.com/username/repo.git`
 2. Install dependencies: `npm install`
 3. Start the application: `npm start`
