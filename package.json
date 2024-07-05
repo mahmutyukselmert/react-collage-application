@@ -1,0 +1,38 @@
+{
+  "name": "react-collage-application",
+  "version": "1.0.0",
+  "main": "./src/index.js",
+  "homepage": ".",
+  "scripts": {
+    "start": "react-scripts start ./src/index.js",
+    "build": "react-scripts build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mahmut Yüksel Mert",
+  "license": "ISC",
+  "description": "A simple collage creator developed with React using the Webrix library.",
+  "dependencies": {
+    "bootstrap": "^5.3.3",
+    "font-awesome": "^4.7.0",
+    "html2canvas": "^1.4.1",
+    "prop-types": "^15.8.1",
+    "react": "^18.3.1",
+    "react-bootstrap": "^2.10.4",
+    "react-dom": "^18.3.1",
+    "react-script": "^2.0.5",
+    "react-scripts": "^5.0.1",
+    "webrix": "^1.5.13"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
