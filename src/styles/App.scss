@@ -1,5 +1,7 @@
 .table>:not(caption)>*>* {
   padding: 2rem 2rem;
+  text-align: center;
+  vertical-align: middle;
 }
 
 .table:hover >:not(caption)>*>* {
