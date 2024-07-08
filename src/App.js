@@ -192,6 +192,7 @@ function App() {
                         <input
                           key={index}
                           type='file'
+                          accept='image/*'
                           onChange={(event) => {
                             const newFiles = [...selectedFiles];
                             newFiles[index] = event.target.files[0];
