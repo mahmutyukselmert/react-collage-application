@@ -57,9 +57,14 @@ function App() {
 
   const handleDownload = () => {
 
-    let images = document.querySelectorAll('.image');
+    let images = document.querySelectorAll('.resizer');
     images.forEach(image => {
       image.style.border = 0;
+    });
+
+    let sliders = document.querySelectorAll('.slider');
+    sliders.forEach(slider => {
+      slider.style.display = 'none';
     });
 
     html2canvas(collageRef.current).then(canvas => {
@@ -70,6 +75,10 @@ function App() {
 
       images.forEach(image => {
         image.style.border = '';
+      });
+
+      sliders.forEach(slider => {
+        slider.style.display = '';
       });
     });
 
@@ -185,11 +194,12 @@ function App() {
                 )}
 
                 {isCollageReady && ( 
-                  <div className='file-inputs d-flex justify-content-between mb-4'>
+                  <div className='file-inputs px-2 d-block d-md-flex d-lg-flex justify-content-between mb-4'>
                     {Array(parseInt(allowedImageCount))
                       .fill(0)
                       .map((_, index) => (
                         <input
+                          className="col-12 col-lg-3 col-lg-3"
                           key={index}
                           type='file'
                           accept='image/*'
@@ -206,15 +216,15 @@ function App() {
                 {isCollageReady && ( 
                   <div className="row">
                     <div className="collage-container">
-                      <div className="col-lg-5 mx-auto p-0">
+                      <div className="mx-auto p-0">
                         <div id="MovableCollage"> 
                           <CollageApp selectedFiles={selectedFiles} collageType={collageType} collageRef={collageRef} />
                         </div>
-                      </div>
+                      </div> 
 
-                      <div className="mt-4 col-lg-5 mx-auto">
-                        <div className="d-flex justify-content-between">
-                        <button className="btn btn-secondary mr-auto" onClick={handleBackToPage}> Kolaj Türünü Değiştir </button>
+                      <div className="mt-4 col-12 col-lg-5 mx-auto">
+                        <div className="d-block px-2 px-lg-0 d-lg-flex justify-content-between">
+                        <button className="btn btn-secondary mb-2 mr-auto" onClick={handleBackToPage}> Kolaj Türünü Değiştir </button>
                         <button id="collage-save-button" onClick={handleDownload} className="btn btn-primary ml-auto" disabled={isCollageSaveDisabled()}>
                           <i className="fa fa-download" aria-hidden="true"></i>
                           &nbsp; Kolaj'ı Kaydet

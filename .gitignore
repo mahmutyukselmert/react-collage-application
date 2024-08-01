@@ -125,12 +125,9 @@ dist
 # yarn v2
 .yarn/cache
 .yarn/unplugged
-.yarn/build-state.yml
+.yarn/build-state.yml+
 .yarn/install-state.gz
 .pnp.*
 
 # OS generated files #
-######################
 .DS_Store
-## This one might be better
-**/.DS_Store

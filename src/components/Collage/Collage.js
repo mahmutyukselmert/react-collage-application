@@ -19,8 +19,15 @@ const Collage = ({ children, size, orientation }) => {
     setSizes([size, 1 - size]);
   };
 
+  let collage_class = null;
+  if(orientation == "row") {
+    collage_class = "half-window";
+  } else {
+    collage_class = "full-window";
+  }
+
   return (
-    <div className='collage' style={{ flexDirection: orientation, flexBasis: `${size * 100}%` }} ref={ref}>
+    <div className={cls('collage', collage_class)} style={{ flexDirection: orientation, flexBasis: `${size * 100}%` }} ref={ref}>
       {React.Children.map(children, (child, i) => (
         <>
           {i > 0 && <Resizer orientation={orientation} onResize={handleOnResize} />}
