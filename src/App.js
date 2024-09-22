@@ -92,6 +92,17 @@ function App() {
     }
   };
 
+  const [selectedIndex, setSelectedIndex] = useState(null);
+  const [scale, setScale] = useState(1);
+
+  const handleImageClick = useCallback((index) => {
+    setSelectedIndex(index);
+  }, []);
+
+  const handleSliderChange = (e) => {
+    setScale(e.target.value);
+  };
+
   return (
     <div>
       <Header handleBackToPage={handleBackToPage} />
@@ -185,7 +196,7 @@ function App() {
 
                     <div className="row mt-2 m-0 p-0">
                       <div className="col-lg-12">
-                        <button className="btn btn-primary w-100" ref={collageTypeSelectButton} onClick={handleContinue} >
+                        <button className="btn btn-primary w-100" ref={collageTypeSelectButton} onClick={handleContinue}>
                           Devam Et
                         </button>
                       </div>
@@ -193,42 +204,61 @@ function App() {
                   </div>
                 )}
 
-                {isCollageReady && ( 
+                {isCollageReady && (
                   <div className='file-inputs px-2 d-block d-md-flex d-lg-flex justify-content-between mb-4'>
-                    {Array(parseInt(allowedImageCount))
-                      .fill(0)
-                      .map((_, index) => (
-                        <input
-                          className="col-12 col-lg-3 col-lg-3"
-                          key={index}
-                          type='file'
-                          accept='image/*'
-                          onChange={(event) => {
-                            const newFiles = [...selectedFiles];
-                            newFiles[index] = event.target.files[0];
-                            setSelectedFiles(newFiles);
-                          }}
-                        />
-                      ))}
+                    {Array(parseInt(allowedImageCount)).fill(0).map((_, index) => (
+                      <input
+                        className="col-12 col-lg-3 col-lg-3"
+                        key={index}
+                        type='file'
+                        accept='image/*'
+                        onChange={(event) => {
+                          const newFiles = [...selectedFiles];
+                          newFiles[index] = event.target.files[0];
+                          setSelectedFiles(newFiles);
+                        }}
+                      />
+                    ))}
                   </div>
                 )}
-
-                {isCollageReady && ( 
+                {isCollageReady && (
                   <div className="row">
                     <div className="collage-container">
                       <div className="mx-auto p-0">
-                        <div id="MovableCollage"> 
-                          <CollageApp selectedFiles={selectedFiles} collageType={collageType} collageRef={collageRef} />
+                        <div id="MovableCollage">
+                          <CollageApp
+                            selectedFiles={selectedFiles}
+                            collageType={collageType}
+                            collageRef={collageRef}
+                            scale={scale}
+                            setScale={setScale}
+                            selectedIndex={selectedIndex}
+                            handleImageClick={handleImageClick}
+                          />
                         </div>
-                      </div> 
-
+                      </div>
                       <div className="mt-4 col-12 col-lg-5 mx-auto">
+                        
+                        <p className="bold">Görselin Uzaklığını ve Yakınlığını Ayarlayın</p>
+                        <input
+                          type="range"
+                          min="0.5"
+                          max="2"
+                          step="0.01"
+                          value={scale}
+                          onChange={handleSliderChange}
+                          className="slider mb-2 w-full"
+                          disabled={selectedIndex === null} // Hiçbir görsel seçilmemişse slider devre dışı
+                        />
+
                         <div className="d-block px-2 px-lg-0 d-lg-flex justify-content-between">
-                        <button className="btn btn-secondary mb-2 mr-auto" onClick={handleBackToPage}> Kolaj Türünü Değiştir </button>
-                        <button id="collage-save-button" onClick={handleDownload} className="btn btn-primary ml-auto" disabled={isCollageSaveDisabled()}>
-                          <i className="fa fa-download" aria-hidden="true"></i>
-                          &nbsp; Kolaj'ı Kaydet
-                        </button>
+                          <button className="btn btn-secondary mb-2 mr-auto" onClick={handleBackToPage}>
+                            Kolaj Türünü Değiştir
+                          </button>
+                          <button id="collage-save-button" onClick={handleDownload} className="btn btn-primary ml-auto" disabled={isCollageSaveDisabled()}>
+                            <i className="fa fa-download" aria-hidden="true"></i>
+                            &nbsp; Kolaj'ı Kaydet
+                          </button>
                         </div>
                       </div>
                     </div>

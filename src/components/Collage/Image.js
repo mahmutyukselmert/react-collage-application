@@ -1,44 +1,49 @@
-// Image.js
-import React, { useMemo, useState, useRef, useEffect } from 'react';
+import React, { useMemo, useState, useRef, useEffect, useCallback } from 'react';
+import { Scalable, Pannable } from 'webrix/components';
 
-import {Scalable, Pannable, Movable} from 'webrix/components';
+function Image({ className = "", size, src, scale, setScale, index, selectedIndex, handleImageClick }) {
+  const [isPanning, setIsPanning] = useState(false);
 
-//<div className='image' style={{flexBasis: `${size * 100}%`, backgroundImage: `url(${src})`}}/>
+  const handleTouchMove = useCallback(
+    (e) => {
+      if (e.touches.length === 2) {
+        e.preventDefault();
+        const touch1 = e.touches[0];
+        const touch2 = e.touches[1];
 
-function Image({ className = "", size, src }) {
+        const dx = touch1.clientX - touch2.clientX;
+        const dy = touch1.clientY - touch2.clientY;
+        const distance = Math.sqrt(dx * dx + dy * dy);
 
-  const [scale, setScale] = useState(1);
-  const {trackpad, update, transform} = Movable.Operations;
-  const {map} = Movable.Transformers;
+        if (!isPanning) {
+          setIsPanning(distance);
+        } else {
+          const scaleChange = distance / isPanning;
+          setScale(prevScale => Math.min(Math.max(prevScale * scaleChange, 0.5), 2));
+        }
+      }
+    },
+    [isPanning, setIsPanning, setScale]
+  );
 
-  const MIN = 0.75, MAX = 1.5;
+  const handleTouchEnd = useCallback(() => {
+    setIsPanning(false);
+  }, []);
 
-  const Slider = ({left, value, onChange}) => {
-      const movable = useRef();
-      const position = `${map(MIN, MAX, 0, 90)(value)}%`; // 90 so the handle doesn't go beyond the track
-      const props = Movable.useMove(useMemo(() => [
-          trackpad(movable),
-          transform(v => v.top, map(0, 100, MIN, MAX)),
-          update(onChange),
-      ], [onChange]));
-
-      return (
-        <Movable className='slider' ref={movable} {...props}>
-          <div className='value'>{Math.round(value * 100)}%</div>
-          <div className='handle' style={{top: position}}/>
-        </Movable>
-      );
-  };
-  
   return (
-    <>
-      <Pannable style={{flexBasis: `${size * 100}%`}} className={className}>
+    <div 
+      className={`image-container ${selectedIndex === index ? 'selected' : ''}`}
+      onClick={() => handleImageClick(index)}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+      style={{ flexBasis: `${size * 100}%`, overflow: 'hidden' }}
+    >
+      <Pannable>
         <Scalable scalex={scale} scaley={scale}>
-          <img className="image" style={{ backgroundImage: `url(${src})`}} src={src} />
+          <img className="image" src={src} />
         </Scalable>
-        <Slider value={scale} onChange={setScale}/>
       </Pannable>
-    </>
+    </div>
   );
 }
 
